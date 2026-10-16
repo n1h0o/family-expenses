@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f7f2">
+  <title>Домашний бюджет — расходы семьи</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Домашний бюджет, главная"><span class="brand-mark">д</span><span>домашний бюджет</span></a>
+      <span class="live"><i></i> Семейный счёт</span>
+    </header>
+
+    <main>
+      <section class="intro">
+        <div>
+          <p class="eyebrow" id="todayLabel"></p>
+          <h1>Расходы,<br><em>как они есть.</em></h1>
+        </div>
+        <p class="intro-note">Все семейные траты<br>в одном спокойном месте.</p>
+      </section>
+
+      <section class="overview" aria-label="Итоги">
+        <div class="total-block"><span class="metric-label">За выбранный период</span><strong id="totalAmount">—</strong><span id="totalCaption" class="muted">Загрузка расходов…</span></div>
+        <div class="overview-side"><span class="metric-label">Записей</span><strong id="expenseCount">—</strong><span class="muted">в списке</span></div>
+        <div class="overview-mark" aria-hidden="true"><span>₽</span><span>₽</span><span>₽</span></div>
+      </section>
+
+      <section class="ledger" aria-labelledby="ledgerTitle">
+        <div class="ledger-heading"><div><p class="eyebrow">Семейная книга</p><h2 id="ledgerTitle">Последние траты</h2></div><button class="primary" id="addButton" type="button"><span>＋</span> Добавить трату</button></div>
+        <div class="filters" role="search">
+          <label class="filter-field member-filter"><span>Член семьи</span><select id="userFilter"><option value="">Все участники</option></select></label>
+          <label class="filter-field"><span>Период с</span><input id="fromFilter" type="date"></label>
+          <label class="filter-field"><span>по</span><input id="toFilter" type="date"></label>
+          <label class="filter-field category-filter"><span>Категория</span><select id="categoryFilter"><option value="">Все категории</option></select></label>
+          <button class="reset-button" id="resetFilters" type="button">Сбросить</button>
+        </div>
+        <div class="table-wrap">
+          <table><thead><tr><th scope="col">Покупка</th><th scope="col">Кто</th><th scope="col">Дата</th><th scope="col">Категория</th><th scope="col" class="amount-col">Сумма</th><th scope="col"><span class="sr-only">Действия</span></th></tr></thead><tbody id="expenseRows"><tr><td colspan="6" class="empty">Загружаем…</td></tr></tbody></table>
+        </div>
+        <div class="table-footer"><span id="resultSummary">—</span><div class="pagination"><button id="prevPage" type="button" aria-label="Предыдущая страница">←</button><span id="pageLabel">1</span><button id="nextPage" type="button" aria-label="Следующая страница">→</button></div></div>
+      </section>
+      <footer><span>Маленькие траты тоже часть общей картины.</span><span>ДОМ · 2026</span></footer>
+    </main>
+  </div>
+
+  <dialog id="expenseDialog">
+    <form id="expenseForm" method="dialog">
+      <div class="dialog-heading"><div><p class="eyebrow" id="dialogKicker">Новая запись</p><h2 id="dialogTitle">Добавить трату</h2></div><button class="close-button" id="closeDialog" type="button" aria-label="Закрыть">×</button></div>
+      <input id="expenseId" type="hidden">
+      <label class="form-field"><span>Член семьи · Telegram ID</span><input id="formUserId" type="number" min="1" required placeholder="Например, 123456789"></label>
+      <div class="form-row"><label class="form-field"><span>Сумма, ₽</span><input id="formAmount" type="number" min="0.01" step="0.01" required placeholder="0"></label><label class="form-field"><span>Дата</span><input id="formDate" type="date" required></label></div>
+      <label class="form-field"><span>Категория</span><select id="formCategory" required></select></label>
+      <label class="form-field"><span>Комментарий</span><input id="formComment" maxlength="500" placeholder="Например, кофе после работы"></label>
+      <p class="form-error" id="formError" role="alert"></p>
+      <div class="dialog-actions"><button class="secondary" id="cancelDialog" type="button">Отмена</button><button class="primary" id="saveExpense" type="submit">Сохранить</button></div>
+    </form>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
